@@ -1,0 +1,45 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\errors\\.1db3298be020005a9a867fe2a3cb7f849d887edd-audit.json",
+    "files": [
+        {
+            "date": 1692754695632,
+            "name": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\errors\\phu-2023-23-08-07-error.log",
+            "hash": "5706af82002f5f0dc4482ebccd7e9d22dfc895123036a376b07f600f091619af"
+        },
+        {
+            "date": 1692788733064,
+            "name": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\errors\\phu-2023-23-08-17-error.log",
+            "hash": "f72d2cf091874362d9efcc3ca340597ac5e174eeb54a62864810079b546b1b3e"
+        },
+        {
+            "date": 1692800268520,
+            "name": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\errors\\phu-2023-23-08-20-error.log",
+            "hash": "1197ec51fb3a41ea14474b4100a05fbc9637bac6382b65195c19f52de2ed04e9"
+        },
+        {
+            "date": 1693318147983,
+            "name": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\errors\\phu-2023-29-08-20-error.log",
+            "hash": "083a9644ac12571e392f868f74c1102e587c95107cae89b593750a3700a53c4c"
+        },
+        {
+            "date": 1693377287311,
+            "name": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\errors\\phu-2023-30-08-12-error.log",
+            "hash": "06282ec78990812331f335dbc1b3ae506d848fb658a5579eaebbe163f2e53b11"
+        },
+        {
+            "date": 1693389864512,
+            "name": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\errors\\phu-2023-30-08-16-error.log",
+            "hash": "c1398e4fb0d15c5180b2ed6f1b7a3037e22a39294cfd9203d0d2905098fcd28f"
+        },
+        {
+            "date": 1693393645427,
+            "name": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\errors\\phu-2023-30-08-17-error.log",
+            "hash": "c15cb3e739cdb1c531f1fbe8aaf979d4e7b95ee011e3db1d616288e4a1bef341"
+        }
+    ],
+    "hashType": "sha256"
+}

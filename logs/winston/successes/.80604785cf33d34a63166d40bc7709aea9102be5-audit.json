@@ -1,0 +1,45 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\successes\\.80604785cf33d34a63166d40bc7709aea9102be5-audit.json",
+    "files": [
+        {
+            "date": 1692754695623,
+            "name": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\successes\\phu-2023-23-08-07-success.log",
+            "hash": "777fde2a4c370dcb6c5c90ba5c8951e62123f9e2b81db7061783633aaaab7992"
+        },
+        {
+            "date": 1692788733046,
+            "name": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\successes\\phu-2023-23-08-17-success.log",
+            "hash": "d12c25d267c4a11beb19326af4010a7ce5cf4b298ec6c2ba425095c32b042e83"
+        },
+        {
+            "date": 1692800268501,
+            "name": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\successes\\phu-2023-23-08-20-success.log",
+            "hash": "00ac3615c615c1d7c52b77730b47a1b1ca6dd6fe045d3e94fc9d8510e8f516a4"
+        },
+        {
+            "date": 1693318147964,
+            "name": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\successes\\phu-2023-29-08-20-success.log",
+            "hash": "27ef08b3e52c3498ad0a7a90aa5944e10be961543cd6b5d2c8b0cb915e64561c"
+        },
+        {
+            "date": 1693377287292,
+            "name": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\successes\\phu-2023-30-08-12-success.log",
+            "hash": "ea8d97e24d25aebef688f3cfa7828b16a2cb23d40599e2ed8efbbf3b73374fcf"
+        },
+        {
+            "date": 1693389864503,
+            "name": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\successes\\phu-2023-30-08-16-success.log",
+            "hash": "938981c4bbb73c7932beedc89e137953718019279616db929f099e392b419515"
+        },
+        {
+            "date": 1693393645419,
+            "name": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\successes\\phu-2023-30-08-17-success.log",
+            "hash": "54f5b77baa9fbc66cb5f6bc2c4b9cfc261f71cba4cba9fa4028f2e84d63c62eb"
+        }
+    ],
+    "hashType": "sha256"
+}
