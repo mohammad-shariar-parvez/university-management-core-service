@@ -13,8 +13,8 @@ datasource db {
 model AcademicSemester {
   id         String    @id @default(uuid())
   year       String
-  title      String
-  code       String
+  title      String    @unique
+  code       String // Enforce pattern validation
   startMonth String
   endMonth   String
   createdAt  DateTime  @default(now())
@@ -26,7 +26,7 @@ model AcademicSemester {
 
 model AcademicFaculty {
   id                  String               @id @default(uuid())
-  title               String
+  title               String               @unique
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
   academicDepartments AcademicDepartment[]
@@ -38,7 +38,7 @@ model AcademicFaculty {
 
 model AcademicDepartment {
   id                String          @id @default(uuid())
-  title             String
+  title             String          @unique
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
   academicFacultyId String
@@ -51,7 +51,7 @@ model AcademicDepartment {
 
 model Student {
   id           String   @id @default(uuid())
-  studendId    String
+  studentId    String   @unique
   firstName    String
   lastName     String
   middleName   String
@@ -77,7 +77,7 @@ model Student {
 
 model Faculty {
   id           String   @id @default(uuid())
-  studendId    String
+  facultyId    String   @unique
   firstName    String
   lastName     String
   middleName   String

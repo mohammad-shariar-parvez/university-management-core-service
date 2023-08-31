@@ -94,6 +94,16 @@
             "date": 1693506192130,
             "name": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\errors\\phu-2023-01-09-00-error.log",
             "hash": "3950990f9fb108cc37574e227504928a11f42546e2d3b85d0fcefd92577031c0"
+        },
+        {
+            "date": 1693514186998,
+            "name": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\errors\\phu-2023-01-09-02-error.log",
+            "hash": "6a079469ff88f594b0332b390f423bea38eda76882c18354cce8c2536bd0be22"
+        },
+        {
+            "date": 1693516768919,
+            "name": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\errors\\phu-2023-01-09-03-error.log",
+            "hash": "bbf4d37510f0a04e52823e4c10be689011ae2837eb68d16cf7de9498331726cb"
         }
     ],
     "hashType": "sha256"

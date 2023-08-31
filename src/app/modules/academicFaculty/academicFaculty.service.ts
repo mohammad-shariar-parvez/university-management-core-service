@@ -1,4 +1,4 @@
-import { AcademicFaculty, AcademicSemester, Prisma } from '@prisma/client';
+import { AcademicFaculty, Prisma } from '@prisma/client';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
@@ -29,7 +29,7 @@ const getSingleFaculty = async (
 const getAllFaculties = async (
   filters: IAcademicFacultyFilters,
   paginationOptions: IPaginationOptions
-): Promise<IGenericResponse<AcademicSemester[]>> => {
+): Promise<IGenericResponse<AcademicFaculty[]>> => {
   const { searchTerm, ...filtersData } = filters;
 
   const { page, limit, skip, sortBy, sortOrder } =
@@ -58,16 +58,16 @@ const getAllFaculties = async (
     });
   }
 
-  const whereConditions: Prisma.AcademicSemesterWhereInput =
+  const whereConditions: Prisma.AcademicFacultyWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
 
-  const result = await prisma.academicSemester.findMany({
+  const result = await prisma.academicFaculty.findMany({
     where: whereConditions,
     skip,
     take: limit,
     orderBy: { [sortBy]: sortOrder },
   });
-  const total = await prisma.academicSemester.count();
+  const total = await prisma.academicFaculty.count();
 
   return {
     meta: {
