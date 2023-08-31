@@ -1,3 +1,4 @@
+import { AcademicFaculty } from '@prisma/client';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { paginationFields } from '../../../constants/pagination';
@@ -5,7 +6,6 @@ import catchAsync from '../../../shared/catchAsync';
 import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
 import { academicFacultyFilterableFields } from './academicFaculty.constant';
-import { IAcademicFaculty } from './academicFaculty.interface';
 import { AcademicFacultyService } from './academicFaculty.service';
 
 const createFaculty = catchAsync(async (req: Request, res: Response) => {
@@ -13,7 +13,7 @@ const createFaculty = catchAsync(async (req: Request, res: Response) => {
   const result = await AcademicFacultyService.createFaculty(
     academicFacultyData
   );
-  sendResponse<IAcademicFaculty>(res, {
+  sendResponse<AcademicFaculty>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Academic Faculty created successfully',
@@ -25,7 +25,7 @@ const getSingleFaculty = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const result = await AcademicFacultyService.getSingleFaculty(id);
 
-  sendResponse<IAcademicFaculty>(res, {
+  sendResponse<AcademicFaculty>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Academic Faculty fetched successfully',
@@ -42,7 +42,7 @@ const getAllFaculties = catchAsync(async (req: Request, res: Response) => {
     paginationOptions
   );
 
-  sendResponse<IAcademicFaculty[]>(res, {
+  sendResponse<AcademicFaculty[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Academic Faculties retrieved successfully',
@@ -57,7 +57,7 @@ const updateFaculty = catchAsync(
     const updatedData = req.body;
     const result = await AcademicFacultyService.updateFaculty(id, updatedData);
 
-    sendResponse<IAcademicFaculty>(res, {
+    sendResponse<AcademicFaculty>(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'Academic Faculty updated successfully',
@@ -70,7 +70,7 @@ const deleteFaculty = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const result = await AcademicFacultyService.deleteFaculty(id);
 
-  sendResponse<IAcademicFaculty>(res, {
+  sendResponse<AcademicFaculty>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Academic Faculty deleted successfully',
