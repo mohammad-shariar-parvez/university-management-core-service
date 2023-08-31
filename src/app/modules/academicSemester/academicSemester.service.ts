@@ -12,12 +12,10 @@ import {
 import { IAcademicSemesterFilters } from './academicSemester.interface';
 
 const createSemester = async (
-  academicSemester: AcademicSemester
+  payload: AcademicSemester
 ): Promise<AcademicSemester> => {
-  console.log('ACADEMIC SEMESTER', academicSemester);
-
   const result = await prisma.academicSemester.create({
-    data: academicSemester,
+    data: payload,
   });
 
   return result;
