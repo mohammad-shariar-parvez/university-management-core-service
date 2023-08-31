@@ -29,7 +29,6 @@ const gteAllSemesters = async (
 
   const { page, limit, skip, sortBy, sortOrder } =
     paginationHelpers.calculatePagination(paginationOptions);
-  console.log('SEARCH TERMS ', sortBy, sortOrder);
 
   const andConditions = [];
 
