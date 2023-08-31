@@ -1,11 +1,15 @@
-import { AcademicSemester, Prisma, PrismaClient } from '@prisma/client';
+import { AcademicSemester, Prisma } from '@prisma/client';
+import httpStatus from 'http-status';
+import ApiError from '../../../errors/ApiError';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
-import { academicSemesterSearchableFields } from './academicSemester.constant';
+import { prisma } from '../../../shared/prisma';
+import {
+  academicSemesterSearchableFields,
+  academicSemesterTitleCodeMapper,
+} from './academicSemester.constant';
 import { IAcademicSemesterFilters } from './academicSemester.interface';
-
-const prisma = new PrismaClient();
 
 const createSemester = async (
   academicSemester: AcademicSemester
@@ -24,10 +28,10 @@ const gteAllSemesters = async (
   paginationOptions: IPaginationOptions
 ): Promise<IGenericResponse<AcademicSemester[]>> => {
   const { searchTerm, ...filtersData } = filters;
-  console.log('SEARCH TERMS ', filtersData);
 
   const { page, limit, skip, sortBy, sortOrder } =
     paginationHelpers.calculatePagination(paginationOptions);
+  console.log('SEARCH TERMS ', sortBy, sortOrder);
 
   const andConditions = [];
 
@@ -59,6 +63,7 @@ const gteAllSemesters = async (
     where: whereConditions,
     skip,
     take: limit,
+    orderBy: { [sortBy]: sortOrder },
   });
   const total = await prisma.academicSemester.count();
 
@@ -72,7 +77,51 @@ const gteAllSemesters = async (
   };
 };
 
+const getSingleSemester = async (
+  id: string
+): Promise<AcademicSemester | null> => {
+  const result = await prisma.academicSemester.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  return result;
+};
+
+const updateSemester = async (
+  id: string,
+  payload: Partial<AcademicSemester>
+): Promise<AcademicSemester | null> => {
+  if (
+    payload.title &&
+    payload.code &&
+    academicSemesterTitleCodeMapper[payload.title] !== payload.code
+  ) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid Semester Code');
+  }
+  const result = await prisma.academicSemester.update({
+    where: {
+      id,
+    },
+    data: payload,
+  });
+  return result;
+};
+
+const deleteSemester = async (id: string): Promise<AcademicSemester | null> => {
+  const result = await prisma.academicSemester.delete({
+    where: {
+      id,
+    },
+  });
+  return result;
+};
+
 export const AcademicSemesterService = {
   createSemester,
   gteAllSemesters,
+  getSingleSemester,
+  updateSemester,
+  deleteSemester,
 };
