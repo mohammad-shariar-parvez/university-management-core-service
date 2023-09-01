@@ -61,6 +61,7 @@ const getAllFaculties = async (
   const whereConditions: Prisma.AcademicFacultyWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
 
+
   const result = await prisma.academicFaculty.findMany({
     where: whereConditions,
     skip,
