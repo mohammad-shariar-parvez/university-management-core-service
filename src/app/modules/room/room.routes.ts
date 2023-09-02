@@ -7,27 +7,27 @@ import { RoomValidation } from './room.validations';
 
 const router = express.Router();
 
-router.get('/', RoomController.getAllFromDB);
-router.get('/:id', RoomController.getByIdFromDB);
+router.get('/', RoomController.getAllRooms);
+router.get('/:id', RoomController.getSingleRoom);
 
 router.post(
     '/',
     validateRequest(RoomValidation.create),
     auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
-    RoomController.insertIntoDB
+    RoomController.createRoom
 );
 
 router.patch(
     '/:id',
     validateRequest(RoomValidation.update),
     auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
-    RoomController.updateOneInDB
+    RoomController.updateRoom
 );
 
 router.delete(
     '/:id',
     auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
-    RoomController.deleteByIdFromDB
+    RoomController.deleteRoom
 );
 
 

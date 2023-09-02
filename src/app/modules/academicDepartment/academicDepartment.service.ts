@@ -48,12 +48,6 @@ const getAllDepartments = async (
     andConditions.push({
       AND: Object.entries(filterData).map(([key, value]) => {
         if (academicDepartmentRelationalFields.includes(key)) {
-          // console.log('Check', {
-          //   [academicDepartmentRelationalFieldsMapper[key]]: {
-          //     id: value,
-          //   },
-          // });
-
           return {
             [academicDepartmentRelationalFieldsMapper[key]]: {
               id: value,

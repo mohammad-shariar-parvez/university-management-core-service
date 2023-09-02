@@ -1,3 +1,4 @@
+import { Room } from '@prisma/client';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
@@ -6,9 +7,9 @@ import sendResponse from '../../../shared/sendResponse';
 import { roomFilterableFields } from './room.constants';
 import { RoomService } from './room.service';
 
-const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
-    const result = await RoomService.insertIntoDB(req.body);
-    sendResponse(res, {
+const createRoom = catchAsync(async (req: Request, res: Response) => {
+    const result = await RoomService.createRoom(req.body);
+    sendResponse<Room>(res, {
         statusCode: httpStatus.OK,
         success: true,
         message: 'Room created successfully',
@@ -16,11 +17,11 @@ const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
-const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
+const getAllRooms = catchAsync(async (req: Request, res: Response) => {
     const filters = pick(req.query, roomFilterableFields);
     const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
-    const result = await RoomService.getAllFromDB(filters, options);
-    sendResponse(res, {
+    const result = await RoomService.getAllRooms(filters, options);
+    sendResponse<Room[]>(res, {
         statusCode: httpStatus.OK,
         success: true,
         message: 'Rooms fetched successfully',
@@ -29,10 +30,10 @@ const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
     });
 })
 
-const getByIdFromDB = catchAsync(async (req: Request, res: Response) => {
+const getSingleRoom = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
-    const result = await RoomService.getByIdFromDB(id);
-    sendResponse(res, {
+    const result = await RoomService.getSingleRoom(id);
+    sendResponse<Room>(res, {
         statusCode: httpStatus.OK,
         success: true,
         message: 'Room fetched successfully',
@@ -40,10 +41,10 @@ const getByIdFromDB = catchAsync(async (req: Request, res: Response) => {
     });
 })
 
-const updateOneInDB = catchAsync(async (req: Request, res: Response) => {
+const updateRoom = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
-    const result = await RoomService.updateOneInDB(id, req.body);
-    sendResponse(res, {
+    const result = await RoomService.updateRoom(id, req.body);
+    sendResponse<Room>(res, {
         statusCode: httpStatus.OK,
         success: true,
         message: 'Room updated successfully',
@@ -51,10 +52,10 @@ const updateOneInDB = catchAsync(async (req: Request, res: Response) => {
     });
 })
 
-const deleteByIdFromDB = catchAsync(async (req: Request, res: Response) => {
+const deleteRoom = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
-    const result = await RoomService.deleteByIdFromDB(id);
-    sendResponse(res, {
+    const result = await RoomService.deleteRoom(id);
+    sendResponse<Room>(res, {
         statusCode: httpStatus.OK,
         success: true,
         message: 'Room deleted successfully',
@@ -63,9 +64,10 @@ const deleteByIdFromDB = catchAsync(async (req: Request, res: Response) => {
 })
 
 export const RoomController = {
-    insertIntoDB,
-    getAllFromDB,
-    getByIdFromDB,
-    updateOneInDB,
-    deleteByIdFromDB
+    createRoom,
+    getAllRooms,
+    getSingleRoom,
+    updateRoom,
+    deleteRoom,
+
 };
