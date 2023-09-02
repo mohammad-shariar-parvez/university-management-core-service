@@ -184,6 +184,11 @@
             "date": 1693679383393,
             "name": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\errors\\phu-2023-03-09-00-error.log",
             "hash": "6db60d98010c8c6e1d46833ecda5ae1a8dd5a1fb4d03f120f5afe99dd49c49a4"
+        },
+        {
+            "date": 1693681389928,
+            "name": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\errors\\phu-2023-03-09-01-error.log",
+            "hash": "289e6bc40ebd23cb3dd7a325edad6fa22ed93ef24c3ec5665afbaf8ded0e0f15"
         }
     ],
     "hashType": "sha256"

@@ -184,6 +184,11 @@
             "date": 1693679383388,
             "name": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\successes\\phu-2023-03-09-00-success.log",
             "hash": "3d5df52ee664e33120b8944fdc3d74292cdee06d7c352c11bb9f6fa1cb3a2641"
+        },
+        {
+            "date": 1693681389920,
+            "name": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\successes\\phu-2023-03-09-01-success.log",
+            "hash": "a98e976c83ed821a23c1aa649690e883d18c25689b49af7846c1864ff0db480e"
         }
     ],
     "hashType": "sha256"
