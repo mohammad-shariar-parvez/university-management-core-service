@@ -1,6 +1,4 @@
 import express from 'express';
-// import { ENUM_USER_ROLE } from '../../../enums/user';
-// import auth from '../../middlewares/auth';
 import { ENUM_USER_ROLE } from '../../../enums/user';
 import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
@@ -9,32 +7,17 @@ import { FacultyValidation } from './faculty.validations';
 
 const router = express.Router();
 
-router.get(
-  '/:id',
-  auth(
-    ENUM_USER_ROLE.SUPER_ADMIN,
-    ENUM_USER_ROLE.ADMIN,
-    ENUM_USER_ROLE.FACULTY
-  ),
-  FacultyController.getSingleFaculty
-);
+router.get('/', FacultyController.getAllFaculties);
 
-router.get(
-  '/',
-  auth(
-    ENUM_USER_ROLE.SUPER_ADMIN,
-    ENUM_USER_ROLE.ADMIN,
-    ENUM_USER_ROLE.FACULTY
-  ),
-  FacultyController.getAllFaculties
-);
+router.get('/:id', FacultyController.getSingleFaculty);
+
 
 router.post(
-  '/:id',
-  validateRequest(FacultyValidation.updateFacultyZodSchema),
-  auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
+  '/',
+  validateRequest(FacultyValidation.createFacultyZodSchema),
   FacultyController.createFaculty
 );
+
 router.patch(
   '/:id',
   validateRequest(FacultyValidation.updateFacultyZodSchema),
@@ -44,22 +27,20 @@ router.patch(
 
 router.delete(
   '/:id',
-  auth(ENUM_USER_ROLE.SUPER_ADMIN),
+  auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
   FacultyController.deleteFaculty
 );
 
 // router.post(
 //   '/:id/assign-courses',
 //   validateRequest(FacultyValidation.assignOrRemoveCourses),
-//   // auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
-//   FacultyController.assignCourses
-// );
+//   auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
+//   FacultyController.assignCourses)
 
 // router.delete(
 //   '/:id/remove-courses',
 //   validateRequest(FacultyValidation.assignOrRemoveCourses),
-//   // auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
-//   FacultyController.removeCourses
-// );
+//   auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
+//   FacultyController.removeCourses)
 
-export const FacultyRoutes = router;
+export const facultyRoutes = router;
