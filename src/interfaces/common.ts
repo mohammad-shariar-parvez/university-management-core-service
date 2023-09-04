@@ -16,3 +16,14 @@ export type IGenericErrorResponse = {
 };
 
 export type ISortOrder = 'asc' | 'desc';
+
+export type IGender = 'male' | 'female';
+export type IBloodGroup =
+  | 'A+'
+  | 'A-'
+  | 'B+'
+  | 'B-'
+  | 'AB+'
+  | 'AB-'
+  | 'O+'
+  | 'O-';
