@@ -1,4 +1,4 @@
-import { Prisma, SemesterRegistration, SemesterRegistrationStatus } from "@prisma/client";
+import { Prisma, SemesterRegistration, SemesterRegistrationStatus, StudentSemesterRegistration } from "@prisma/client";
 import httpStatus from "http-status";
 import ApiError from "../../../errors/ApiError";
 import { paginationHelpers } from "../../../helpers/paginationHelper";
@@ -183,7 +183,7 @@ const startMyRegistration = async (authUserId: string): Promise<{
     if (!studentInfo) {
         throw new ApiError(httpStatus.BAD_REQUEST, "Student Info not found!")
     }
-
+    // ISSUE
     const semesterRegistrationInfo = await prisma.semesterRegistration.findFirst({
         where: {
             status: {
@@ -192,11 +192,13 @@ const startMyRegistration = async (authUserId: string): Promise<{
         }
     })
 
+    console.log("semesterRegistrationInfo", semesterRegistrationInfo);
+
     if (semesterRegistrationInfo?.status === SemesterRegistrationStatus.UPCOMING) {
         throw new ApiError(httpStatus.BAD_REQUEST, "Registration is not started yet")
     }
 
-    let studentRegistration = await prisma.StudentSemesterRegistration.findFirst({
+    let studentRegistration = await prisma.studentSemesterRegistration.findFirst({
         where: {
             student: {
                 id: studentInfo?.id
@@ -224,10 +226,22 @@ const startMyRegistration = async (authUserId: string): Promise<{
             }
         })
     }
+    // if (!studentRegistration) {
+    //     if (!studentInfo?.id || !semesterRegistrationInfo?.id) {
+    //         throw new Error("Student ID or Semester Registration ID is missing.");
+    //     }
+
+    //     studentRegistration = await prisma.studentSemesterRegistration.create({
+    //         data: {
+    //             studentId: studentInfo.id,
+    //             semesterRegistrationId: semesterRegistrationInfo.id
+    //         }
+    //     });
+    // }
 
     return {
         semesterRegistration: semesterRegistrationInfo,
-        studentSemesterRegistration: studentRegistration
+        StudentSemesterRegistration: studentRegistration
     }
 }
 
