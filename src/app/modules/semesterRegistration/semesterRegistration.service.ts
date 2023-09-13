@@ -6,8 +6,9 @@ import { IGenericResponse } from "../../../interfaces/common";
 import { IPaginationOptions } from "../../../interfaces/pagination";
 
 import { prisma } from "../../../shared/prisma";
+import { studentSemesterRegistrationCourseService } from "../studentSemesterRegistrationCourse/studentSemesterRegistrationCourse.service";
 import { semesterRegistrationRelationalFields, semesterRegistrationRelationalFieldsMapper, semesterRegistrationSearchableFields } from "./semesterRegistration.constants";
-import { ISemesterRegistrationFilterRequest } from "./semesterRegistration.interface";
+import { IEnrollCoursePayload, ISemesterRegistrationFilterRequest } from "./semesterRegistration.interface";
 
 const insertIntoDB = async (data: SemesterRegistration): Promise<SemesterRegistration> => {
 
@@ -245,11 +246,62 @@ const startMyRegistration = async (authUserId: string): Promise<{
     }
 }
 
+
+const enrollIntoCourse = async (
+    authUserId: string,
+    payload: IEnrollCoursePayload
+): Promise<{
+    message: string
+}> => {
+    return studentSemesterRegistrationCourseService.enrollIntoCourse(authUserId, payload)
+}
+
+const withdrewFromCourse = async (
+    authUserId: string,
+    payload: IEnrollCoursePayload
+): Promise<{
+    message: string
+}> => {
+    return studentSemesterRegistrationCourseService.withdrewFromCourse(authUserId, payload)
+}
+
+const getMyRegistration = async (authUserId: string) => {
+    const semesterRegistration = await prisma.semesterRegistration.findFirst({
+        where: {
+            status: SemesterRegistrationStatus.ONGOING
+        },
+        include: {
+            academicSemester: true
+        }
+    })
+
+    const studentSemesterRegistration = await prisma.studentSemesterRegistration.findFirst({
+        where: {
+            semesterRegistration: {
+                id: semesterRegistration?.id
+            },
+            student: {
+                studentId: authUserId
+            }
+        },
+        include: {
+            student: true
+        }
+    })
+
+    return { semesterRegistration, studentSemesterRegistration }
+}
+
+
 export const SemesterRegistrationService = {
     insertIntoDB,
     getAllFromDB,
     getByIdFromDB,
     updateOneInDB,
     deleteByIdFromDB,
-    startMyRegistration
+    startMyRegistration,
+    enrollIntoCourse,
+    withdrewFromCourse,
+    getMyRegistration
+
 }
