@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-dgetAllFacultiesisable @typescript-eslint/no-explicit-any */
 
@@ -10,9 +11,9 @@ import {
     facultyRelationalFieldsMapper,
     facultySearchableFields,
 } from './faculty.constant';
-import { IFacultyFilters } from './faculty.interface';
+import { IFacultyFilters, IFacultyMyCourseStudentsRequest } from './faculty.interface';
 
-import { CourseFaculty, Faculty, Prisma } from '@prisma/client';
+import { CourseFaculty, Faculty, Prisma, Student } from '@prisma/client';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { prisma } from '../../../shared/prisma';
 
@@ -192,6 +193,173 @@ const removeCourses = async (
     return assignCoursesData
 }
 
+
+const myCourses = async (
+    authUser: {
+        userId: string,
+        role: string
+    },
+    filter: {
+        academicSemesterId?: string | null | undefined,
+        courseId?: string | null | undefined
+    }
+) => {
+    if (!filter.academicSemesterId) {
+        const currentSemester = await prisma.academicSemester.findFirst({
+            where: {
+                isCurrent: true
+            }
+        });
+
+        filter.academicSemesterId = currentSemester?.id
+    }
+
+    const offeredCourseSections = await prisma.offeredCourseSection.findMany({
+        where: {
+            offeredCourseClassSchedules: {
+                some: {
+                    faculty: {
+                        facultyId: authUser.userId
+                    }
+                }
+            },
+            offeredCourse: {
+                semesterRegistration: {
+                    academicSemester: {
+                        id: filter.academicSemesterId
+                    }
+                }
+            }
+        },
+        include: {
+            offeredCourse: {
+                include: {
+                    course: true
+                }
+            },
+            offeredCourseClassSchedules: {
+                include: {
+                    room: {
+                        include: {
+                            building: true
+                        }
+                    }
+                }
+            }
+        }
+    });
+    //ISSUE
+    // return offeredCourseSections;
+    const couseAndSchedule = offeredCourseSections.reduce((acc: any, obj: any) => {
+        //console.log(obj)
+
+        const course = obj.offeredCourse.course;
+        const classSchedules = obj.offeredCourseClassSchedules
+
+        const existingCourse = acc.find((item: any) => item.couse?.id === course?.id);
+        if (existingCourse) {
+            existingCourse.sections.push({
+                section: obj,
+                classSchedules
+            })
+        }
+        else {
+            acc.push({
+                course,
+                sections: [
+                    {
+                        section: obj,
+                        classSchedules
+                    }
+                ]
+            })
+        }
+        return acc;
+    }, []);
+    // return offeredCourseSections;
+    return couseAndSchedule;
+};
+
+
+const getMyCourseStudents = async (
+    filters: IFacultyMyCourseStudentsRequest,
+    options: IPaginationOptions,
+    // eslint-disable-next-line no-unused-vars
+    authUser: any
+): Promise<IGenericResponse<Student[]>> => {
+    const { limit, page, skip } = paginationHelpers.calculatePagination(options);
+    // console.log(authUser)
+    if (!filters.academicSemesterId) {
+        const currentAcademicSemester = await prisma.academicSemester.findFirst({
+            where: {
+                isCurrent: true
+            }
+        });
+
+        if (currentAcademicSemester) {
+            filters.academicSemesterId = currentAcademicSemester.id;
+        }
+    }
+
+    const offeredCourseSections = await prisma.studentSemesterRegistrationCourse.findMany({
+        where: {
+            offeredCourse: {
+                course: {
+                    id: filters.courseId
+                }
+            },
+            offeredCourseSection: {
+                offeredCourse: {
+                    semesterRegistration: {
+                        academicSemester: {
+                            id: filters.academicSemesterId
+                        }
+                    }
+                },
+                id: filters.offeredCourseSectionId
+            }
+        },
+        include: {
+            student: true
+        },
+        take: limit,
+        skip
+    });
+
+    const students = offeredCourseSections.map(
+        (offeredCourseSection) => offeredCourseSection.student
+    );
+
+    const total = await prisma.studentSemesterRegistrationCourse.count({
+        where: {
+            offeredCourse: {
+                course: {
+                    id: filters.courseId
+                }
+            },
+            offeredCourseSection: {
+                offeredCourse: {
+                    semesterRegistration: {
+                        academicSemester: {
+                            id: filters.academicSemesterId
+                        }
+                    }
+                },
+                id: filters.offeredCourseSectionId
+            }
+        }
+    });
+
+    return {
+        meta: {
+            total,
+            page,
+            limit
+        },
+        data: students
+    };
+};
+
 export const FacultyService = {
     createFaculty,
     getSingleFaculty,
@@ -199,5 +367,7 @@ export const FacultyService = {
     updateFaculty,
     deleteFaculty,
     assignCourses,
-    removeCourses
+    removeCourses,
+    myCourses,
+    getMyCourseStudents
 };
