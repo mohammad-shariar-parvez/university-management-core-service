@@ -14,7 +14,7 @@ const checkRoomAvailable = async (data: OfferedCourseClassSchedule) => {
             }
         }
     })
-    console.log("alreadyBookedRoomOnDay", alreadyBookedRoomOnDay);
+    // console.log("alreadyBookedRoomOnDay", alreadyBookedRoomOnDay);
 
     const existingSlots = alreadyBookedRoomOnDay.map((schedule) => ({
         startTime: schedule.startTime,
@@ -22,7 +22,7 @@ const checkRoomAvailable = async (data: OfferedCourseClassSchedule) => {
         dayOfWeek: schedule.dayOfWeek
     }))
 
-    console.log("existingSlots", existingSlots);
+    // console.log("existingSlots", existingSlots);
 
 
     const newSlot = {
@@ -32,7 +32,7 @@ const checkRoomAvailable = async (data: OfferedCourseClassSchedule) => {
     }
 
 
-    console.log("newSlot", newSlot);
+    // console.log("newSlot", newSlot);
 
     if (hasTimeConflict(existingSlots, newSlot)) {
         throw new ApiError(httpStatus.CONFLICT, "Room is already booked!")
