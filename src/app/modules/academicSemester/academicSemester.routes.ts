@@ -9,19 +9,20 @@ const router = express.Router();
 router.get('/', AcademicSemesterController.getAllSemesters);
 router.get('/:id', AcademicSemesterController.getSingleSemester);
 router.post(
-  '/create-semester',
-  validateRequest(AcademicSemesterValidation.createAcademicSemesterZodSchema),
-  AcademicSemesterController.createSemester
+	'/',
+	validateRequest(AcademicSemesterValidation.createAcademicSemesterZodSchema),
+	auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
+	AcademicSemesterController.createSemester
 );
 
 router.patch(
-  '/:id',
-  validateRequest(AcademicSemesterValidation.updateAcademicSemesterZodSchema),
-  auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
-  AcademicSemesterController.updateSemester
+	'/:id',
+	validateRequest(AcademicSemesterValidation.updateAcademicSemesterZodSchema),
+	auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
+	AcademicSemesterController.updateSemester
 );
 router.delete('/:id',
-  auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
-  AcademicSemesterController.deleteSemester);
+	auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
+	AcademicSemesterController.deleteSemester);
 
 export const academicSemesterRoutes = router;

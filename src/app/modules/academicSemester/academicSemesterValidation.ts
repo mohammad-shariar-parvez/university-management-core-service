@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { acamedicSemesterCodes } from './academicSemester.constant';
 
+//ISSUE - auth service  year is string so here is 
 const createAcademicSemesterZodSchema = z.object({
   body: z.object({
     title: z.string({
