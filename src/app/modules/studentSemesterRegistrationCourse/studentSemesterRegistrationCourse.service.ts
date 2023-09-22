@@ -101,7 +101,7 @@ const enrollIntoCourse = async (
 		message: "Successfully enrolled into course"
 	};
 }
-
+//ISSUE - we can ommit sending offeredCourse because its alreasy exist in OCS
 const withdrewFromCourse = async (
 	authUserId: string,
 	payload: IEnrollCoursePayload
