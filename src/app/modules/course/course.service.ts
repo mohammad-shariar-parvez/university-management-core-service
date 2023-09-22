@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Course, CourseFaculty, Prisma } from "@prisma/client";
 import httpStatus from "http-status";
 import ApiError from "../../../errors/ApiError";
@@ -29,17 +30,18 @@ const createCourse = async (data: ICourseCreateData): Promise<any> => {
                 preRequisiteCourses,
                 async (preRequisiteCourse: IPrerequisiteCourseRequest) => {
 
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     const createPrerequisite = await transactionClient.courseToPrerequisite.create({
                         data: {
                             courseId: result.id,
                             preRequisiteId: preRequisiteCourse.courseId
                         }
                     })
-                    console.log("createPrerequisite", createPrerequisite)
+                    // console.log("createPrerequisite", createPrerequisite)
                 }
             )
         }
-        console.log("RESULT", result);
+        // console.log("RESULT", result);
 
         return result;
     })
