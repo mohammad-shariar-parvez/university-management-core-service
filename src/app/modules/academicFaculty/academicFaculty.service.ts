@@ -18,7 +18,7 @@ const createFaculty = async (
 const getSingleFaculty = async (
   id: string
 ): Promise<AcademicFaculty | null> => {
-  const result = await prisma.academicFaculty.findUnique({
+  const result = await prisma.academicFaculty.findUniqueOrThrow({
     where: {
       id,
     },

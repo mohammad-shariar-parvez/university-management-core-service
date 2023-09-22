@@ -24,6 +24,7 @@ const createFaculty = catchAsync(async (req: Request, res: Response) => {
 const getSingleFaculty = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const result = await AcademicFacultyService.getSingleFaculty(id);
+  console.log(result);
 
   sendResponse<AcademicFaculty>(res, {
     statusCode: httpStatus.OK,
