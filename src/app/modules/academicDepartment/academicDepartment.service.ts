@@ -93,7 +93,7 @@ const getAllDepartments = async (
 const getSingleDepartment = async (
   id: string
 ): Promise<AcademicDepartment | null> => {
-  const result = await prisma.academicDepartment.findUnique({
+  const result = await prisma.academicDepartment.findUniqueOrThrow({
     where: {
       id,
     },
