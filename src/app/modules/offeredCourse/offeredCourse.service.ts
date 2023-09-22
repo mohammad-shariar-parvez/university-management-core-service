@@ -20,7 +20,7 @@ const insertIntoDB = async (data: ICreateOfferedCourse): Promise<OfferedCourse[]
                 courseId
             }
         })
-        console.log("ALREADY EXIST", alreadyExist);
+        // console.log("ALREADY EXIST", alreadyExist);
 
         if (!alreadyExist) {
             const insertOfferedCourse = await prisma.offeredCourse.create({
