@@ -31,8 +31,18 @@ const update = z.object({
         status: z.enum([...Object.values(SemesterRegistrationStatus)] as [string, ...string[]], {}).optional()
     })
 });
-
+const enrollOrWithdrawCourse = z.object({
+    body: z.object({
+        offeredCourseId: z.string({
+            required_error: "Offered course id is required"
+        }),
+        offeredCourseSectionId: z.string({
+            required_error: "Offered course Section id is required"
+        })
+    })
+})
 export const SemesterRegistrationValidation = {
     create,
-    update
+    update,
+    enrollOrWithdrawCourse
 };
