@@ -119,6 +119,11 @@
             "date": 1695265466451,
             "name": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\errors\\phu-2023-21-09-09-error.log",
             "hash": "14f88e44533e0323940d166ca6a1341f17cf712c1e82ef1f87735c1015b6bf73"
+        },
+        {
+            "date": 1695449843212,
+            "name": "E:\\PG-HERO-2\\university-management-core-service\\logs\\winston\\errors\\phu-2023-23-09-12-error.log",
+            "hash": "23d370d00985f9c556c4d2216baf096bba8851c6d95782e6a77e5259a6e7bef4"
         }
     ],
     "hashType": "sha256"
