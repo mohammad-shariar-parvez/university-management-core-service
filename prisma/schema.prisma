@@ -16,7 +16,7 @@ model Student {
   firstName                          String
   lastName                           String
   middleName                         String
-  profileImage                       String
+  profileImage                       String?
   email                              String
   contactNo                          String
   gender                             String
@@ -41,8 +41,8 @@ model Student {
 
 model AcademicSemester {
   id                         String                      @id @default(uuid())
-  year                       String
-  title                      String                      @unique
+  year                       Int
+  title                      String
   code                       String // Enforce pattern validation
   isCurrent                  Boolean?                    @default(false)
   startMonth                 String
