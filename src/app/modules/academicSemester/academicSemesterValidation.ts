@@ -1,35 +1,33 @@
 import { z } from 'zod';
-import { acamedicSemesterCodes } from './academicSemester.constant';
+import { academicSemesterMonths, academicSemesterTitles, acamedicSemesterCodes } from './academicSemester.constant';
 
 //ISSUE - auth service  year is string so here is 
 const createAcademicSemesterZodSchema = z.object({
   body: z.object({
-    title: z.string({
+    title: z.enum([...academicSemesterTitles] as [string, ...string[]], {
       required_error: 'Title is required',
     }),
-    year: z.string({
+    year: z.number({
       required_error: 'Year is required',
     }),
     code: z.enum([...acamedicSemesterCodes] as [string, ...string[]], {
       required_error: 'Code is required',
     }),
-    startMonth: z.string({
+    startMonth: z.enum([...academicSemesterMonths] as [string, ...string[]], {
       required_error: 'Start months is required',
     }),
-    endMonth: z.string({
+    endMonth: z.enum([...academicSemesterMonths] as [string, ...string[]], {
       required_error: 'End months is required',
-    }),
+    })
   }),
 });
 
 const updateAcademicSemesterZodSchema = z.object({
-  body: z.object({
-    title: z.string().optional(),
-    code: z.enum([...acamedicSemesterCodes] as [string, ...string[]]).optional(),
-    year: z.number().optional(),
-    startMonth: z.string().optional(),
-    endMonth: z.string().optional(),
-  }),
+  title: z.enum([...academicSemesterTitles] as [string, ...string[]]).optional(),
+  code: z.enum([...acamedicSemesterCodes] as [string, ...string[]]).optional(),
+  year: z.number().optional(),
+  startMonth: z.enum([...academicSemesterMonths] as [string, ...string[]]).optional(),
+  endMonth: z.enum([...academicSemesterMonths] as [string, ...string[]]).optional()
 });
 
 export const AcademicSemesterValidation = {

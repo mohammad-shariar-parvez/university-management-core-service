@@ -10,10 +10,13 @@ import { AcademicSemesterService } from './academicSemester.service';
 
 const createSemester = catchAsync(async (req: Request, res: Response) => {
   const { ...academicSemesterData } = req.body;
+  console.log("resulttttt-------------", academicSemesterData);
 
   const result = await AcademicSemesterService.createSemester(
     academicSemesterData
   );
+
+
   sendResponse<AcademicSemester>(res, {
     statusCode: httpStatus.OK,
     success: true,
