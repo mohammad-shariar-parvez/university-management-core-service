@@ -5,13 +5,12 @@
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 
-
 import {
     facultyRelationalFields,
     facultyRelationalFieldsMapper,
     facultySearchableFields,
 } from './faculty.constant';
-import { IFacultyFilters, IFacultyMyCourseStudentsRequest } from './faculty.interface';
+import { FacultyCreatedEvent, IFacultyFilters, IFacultyMyCourseStudentsRequest } from './faculty.interface';
 
 import { CourseFaculty, Faculty, Prisma, Student } from '@prisma/client';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
@@ -25,10 +24,14 @@ const createFaculty = async (data: Faculty): Promise<Faculty> => {
             academicDepartment: true,
         },
     });
+    console.log("create log", result);
+
     return result;
 };
 
-const getSingleFaculty = async (id: string): Promise<Faculty | null> => {
+const getSingleFaculty = async (
+    id: string
+): Promise<Faculty | null> => {
     const result = await prisma.faculty.findUnique({
         where: {
             id,
@@ -154,7 +157,7 @@ const assignCourses = async (
             facultyId: id,
             courseId: courseId
         }))
-    })
+    });
 
     const assignCoursesData = await prisma.courseFaculty.findMany({
         where: {
@@ -163,10 +166,10 @@ const assignCourses = async (
         include: {
             course: true
         }
-    })
+    });
 
     return assignCoursesData;
-}
+};
 
 const removeCourses = async (
     id: string,
@@ -179,7 +182,7 @@ const removeCourses = async (
                 in: payload
             }
         }
-    })
+    });
 
     const assignCoursesData = await prisma.courseFaculty.findMany({
         where: {
@@ -188,20 +191,20 @@ const removeCourses = async (
         include: {
             course: true
         }
-    })
+    });
 
-    return assignCoursesData
-}
+    return assignCoursesData;
+};
 
 
 const myCourses = async (
     authUser: {
         userId: string,
-        role: string
+        role: string;
     },
     filter: {
         academicSemesterId?: string | null | undefined,
-        courseId?: string | null | undefined
+        courseId?: string | null | undefined;
     }
 ) => {
     if (!filter.academicSemesterId) {
@@ -211,7 +214,7 @@ const myCourses = async (
             }
         });
 
-        filter.academicSemesterId = currentSemester?.id
+        filter.academicSemesterId = currentSemester?.id;
     }
 
     const offeredCourseSections = await prisma.offeredCourseSection.findMany({
@@ -254,14 +257,14 @@ const myCourses = async (
         //console.log(obj)
 
         const course = obj.offeredCourse.course;
-        const classSchedules = obj.offeredCourseClassSchedules
+        const classSchedules = obj.offeredCourseClassSchedules;
 
         const existingCourse = acc.find((item: any) => item.couse?.id === course?.id);
         if (existingCourse) {
             existingCourse.sections.push({
                 section: obj,
                 classSchedules
-            })
+            });
         }
         else {
             acc.push({
@@ -272,7 +275,7 @@ const myCourses = async (
                         classSchedules
                     }
                 ]
-            })
+            });
         }
         return acc;
     }, []);
@@ -360,6 +363,63 @@ const getMyCourseStudents = async (
     };
 };
 
+
+const createFacultyFromEvent = async (e: FacultyCreatedEvent): Promise<void> => {
+    const faculty: Partial<Faculty> = {
+        facultyId: e.id,
+        firstName: e.name.firstName,
+        lastName: e.name.lastName,
+        middleName: e.name.middleName,
+        profileImage: e.profileImage,
+        email: e.email,
+        contactNo: e.contactNo,
+        gender: e.gender,
+        bloodGroup: e.bloodGroup,
+        designation: e.designation,
+        academicDepartmentId: e.academicDepartment.syncId,
+        academicFacultyId: e.academicFaculty.syncId
+    };
+
+    const res = await createFaculty(faculty as Faculty);
+    console.log("RES: ", res);
+};
+
+const updateFacultyFromEvent = async (e: any): Promise<void> => {
+    const isExist = await prisma.faculty.findFirst({
+        where: {
+            facultyId: e.id
+        }
+    });
+
+
+    if (!isExist) {
+        createFacultyFromEvent(e);
+    }
+    else {
+        const facultyData: Partial<Faculty> = {
+            facultyId: e.id,
+            firstName: e.name.firstName,
+            lastName: e.name.lastName,
+            middleName: e.name.middleName,
+            profileImage: e.profileImage,
+            email: e.email,
+            contactNo: e.contactNo,
+            gender: e.gender,
+            bloodGroup: e.bloodGroup,
+            designation: e.designation,
+            academicDepartmentId: e.academicDepartment.syncId,
+            academicFacultyId: e.academicFaculty.syncId
+        };
+
+        await prisma.faculty.update({
+            where: {
+                facultyId: e.id
+            },
+            data: facultyData
+        });
+
+    }
+};
 export const FacultyService = {
     createFaculty,
     getSingleFaculty,
@@ -369,5 +429,7 @@ export const FacultyService = {
     assignCourses,
     removeCourses,
     myCourses,
-    getMyCourseStudents
+    getMyCourseStudents,
+    createFacultyFromEvent,
+    updateFacultyFromEvent
 };
